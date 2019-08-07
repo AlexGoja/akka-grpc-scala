@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+option java_multiple_files = true;
+option java_package = "com.scalagrpcakka.questionaire";
+option java_outer_classname = "QuestionProto";
+
+message Question {
+    string id = 1;
+    Content content = 2;
+    int32 legacyId = 3;
+    Metadata metadata = 4;
+    Settings settings = 5;
+    OptionSet optionSet = 6;
+    string questionTypeCode = 7;
+}
+
+message Content {
+    LongTitle longTitle = 1;
+    ShortTitle shortTitle = 2;
+}
+
+message LongTitle {
+    map<string, CountryText> countryText = 1;
+}
+
+message CountryText {
+    string text = 1;
+    int32 legacyId = 2;
+}
+
+message ShortTitle {
+    map<string, CountryText> countryText = 1;
+}
+
+message Metadata {
+    int32 oid = 1;
+    int32 clientId = 2;
+    bool isActive = 3;
+    bool isGlobal = 4;
+    int32 categoryId = 5;
+    bool isEditable = 6;
+    bool isMandatory = 7;
+    string initialLocale = 8;
+    bool isBenchmarked = 9;
+    bool isQListRecommended = 10;
+}
+
+message Settings {
+    Report report = 1;
+    Frontend frontend = 2;
+}
+
+message Report {
+    string symbol = 1;
+    string graphType = 2;
+    bool dspYourScore = 3;
+    string dashboardBarRanges = 4;
+}
+
+message Frontend {
+    string alignment = 1;
+    int32 displayCols = 2;
+    bool showGradient = 3;
+}
+
+message OptionSet{
+    string id = 1;
+    string axis = 2;
+    repeated Option options = 3;
+    int32 legacyId = 4;
+    bool isExclusive = 5;
+    bool hasNumericCodes = 6;
+}
+
+message Option {
+    string id = 1;
+    Lang lang = 2;
+    bool isHidden = 3;
+    bool isLocked = 4;
+    int32 legacyId = 5;
+    int32 priority = 6;
+    string filedType = 7;
+    bool isExclusive = 8;
+    bool hasOptionOther = 9;
+    bool isNonReporting = 10;
+    double reportingValue = 11;
+    bool optionOtherIsMandatory = 12;
+}
+
+message Lang {
+    map<string, CountryText> countryText = 1;
+}
+
+message QuestionRequest {string id = 1;}
+message QuestionResponse {string question = 1;}
+
+service QuestionService {
+    // Obtains the question with a given id
+    rpc GetQuestion(QuestionRequest) returns (QuestionResponse) {
+        // define associated REST endpoint on GRPC Gateway
+        option (google.api.http) = {
+          post: "v1/api/question/id"
+          body: "*"
+        };
+    }
+}
