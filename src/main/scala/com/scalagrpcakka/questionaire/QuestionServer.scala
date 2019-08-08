@@ -64,7 +64,7 @@ object QuestionServer {
     // important to enable HTTP/2 in ActorSystem's config
     val conf = ConfigFactory.parseString("akka.http.server.preview.enable-http2 = on")
       .withFallback(ConfigFactory.defaultApplication())
-    val system: ActorSystem = ActorSystem("HelloWorld", conf)
+    val system: ActorSystem = ActorSystem("QuestionService", conf)
     new QuestionServer(system).run()
   }
 }
