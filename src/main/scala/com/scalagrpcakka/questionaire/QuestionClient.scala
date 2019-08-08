@@ -16,7 +16,7 @@ object QuestionClient {
     val client = QuestionServiceClient(GrpcClientSettings.fromConfig("question.QuestionService"))
 
     val names =
-      if (args.isEmpty) List("Alice", "Bob")
+      if (args.isEmpty) List("QuestionID1", "QuestionID2")
       else args.toList
 
     names.foreach(singleRequestReply)
