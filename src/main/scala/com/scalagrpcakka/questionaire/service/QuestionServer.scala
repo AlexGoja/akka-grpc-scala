@@ -1,9 +1,12 @@
-package com.scalagrpcakka.questionaire
+package com.scalagrpcakka.questionaire.service
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.{Http, HttpConnectionContext}
 import akka.stream.{ActorMaterializer, Materializer}
+import com.scalagrpcakka.questionaire.QuestionServiceHandler
+import com.scalagrpcakka.questionaire.storage.Storage
+import com.scalagrpcakka.questionaire.storage.mysql.MysqlImpl
 import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -26,10 +29,11 @@ class QuestionServer(system: ActorSystem) {
     implicit val mat: Materializer = ActorMaterializer()
     implicit val ec: ExecutionContext = sys.dispatcher
 
-    val service: HttpRequest => Future[HttpResponse] = {
-      QuestionServiceHandler(new QuestionServiceImpl(mat))
-    }
+    val storage: Storage = new MysqlImpl()
 
+    val service: HttpRequest => Future[HttpResponse] = {
+      QuestionServiceHandler(new QuestionServiceImpl(materializer = mat, storage = storage))
+    }
 
     val bound = Http().bindAndHandleAsync(
       service,
@@ -38,6 +42,7 @@ class QuestionServer(system: ActorSystem) {
       parallelism = 256,
       connectionContext = HttpConnectionContext()
     )
+
 
     bound.foreach { binding =>
       println(s"gRPC server bound to: ${binding.localAddress}")

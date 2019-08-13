@@ -1,8 +1,9 @@
-package com.scalagrpcakka.questionaire
+package com.scalagrpcakka.questionaire.client
 
 import akka.actor.ActorSystem
 import akka.grpc.GrpcClientSettings
 import akka.stream.ActorMaterializer
+import com.scalagrpcakka.questionaire.{QuestionRequest, QuestionServiceClient}
 
 import scala.util.{Failure, Success}
 
