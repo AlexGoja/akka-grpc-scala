@@ -4,8 +4,7 @@ import com.scalagrpcakka.questionaire.storage.Storage
 import explori.Tables._
 import slick.jdbc.MySQLProfile.api._
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
 class MysqlImpl extends Storage with Connectable {
@@ -29,9 +28,9 @@ class MysqlImpl extends Storage with Connectable {
       .filter(_.id === id)
       .result.headOption
 
-    db.run(q.map(s => println(s.get.str)))
+//    db.run(q.map(s => println(s.get.str)))
 
-    Await.result(db.run(q), duration)
+//    Await.result(db.run(q), duration)
 
     db.run(q)
 
