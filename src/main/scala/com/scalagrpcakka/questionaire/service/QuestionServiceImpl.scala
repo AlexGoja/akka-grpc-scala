@@ -15,8 +15,16 @@ class QuestionServiceImpl(materializer: Materializer, storage: Storage) extends 
    *
    */
   override def getQuestion(in: QuestionRequest): Future[QuestionResponse] = {
-    val question: Unit = storage.getQuestion(in.id)
-    Future.successful(QuestionResponse(s"Question:, ${in.id}"))
+//    val questionFuture: Future[Option[(SurveydatastrRow, SurveydataoptRow)]] = storage.getQuestion(in.id)
+//    questionFuture.map {
+//      result =>
+//        if (result.isEmpty) new QuestionResponse(question = "None")
+//        else new QuestionResponse(question = result.get._1.str.get)
+//    }
+
+    val questionFuture: Future[Unit] = storage.getQuestion(in.id)
+
+    Future.successful(new QuestionResponse(question = "None"))
   }
 
 }

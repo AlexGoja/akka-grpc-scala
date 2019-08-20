@@ -19,8 +19,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http"   % "10.1.5",
   "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.9",
   "com.google.api.grpc" % "googleapis-common-protos" % "0.0.3" % "protobuf",
-  "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % "test",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
   "com.typesafe.slick" %% "slick" % "3.3.1",
   "org.slf4j" % "slf4j-nop" % "1.7.26",
   "mysql" % "mysql-connector-java" % "8.0.17",

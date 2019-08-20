@@ -1,0 +1,167 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "question.proto";
+
+option java_multiple_files = true;
+option java_package = "com.scalagrpcakka.questionaire";
+option java_outer_classname = "SurveyProto";
+
+message Survey {
+    string id = 1;
+    repeated Page page = 2;
+    int32 legacyId = 3;
+    SurveyMetadata metadata = 4;
+    string publicId = 5;
+    repeated SkipLogic skipLogic = 6;
+}
+
+message Page {
+    string id = 1;
+    string title = 2;
+    string content = 3;
+    int32 legacyId = 4;
+    PageType pageType = 5;
+    int32 priority = 6;
+    repeated SurveyQuestion question = 7;
+    bool isRandomized = 8;
+}
+
+message SurveyQuestion {
+    string id = 1;
+    bool isLocked = 2;
+    int32 legacyId = 3;
+    int32 priority = 4;
+    string questionId = 5;
+    bool isMandatory = 6;
+    string questionLevel = 7;
+    bool hasPrepopulatedData = 8;
+}
+
+enum PageType {
+    CH = 0;
+    RD = 1;
+    SB = 2;
+    CO = 3;
+    OD = 4;
+    PC = 5;
+    I = 6;
+    TB = 7;
+    RT = 8;
+    TX = 9;
+    TA = 10;
+    OTHER = 11;
+    ST = 12;
+}
+
+message SurveyContent {
+    ContentTitle title = 1;
+}
+
+message ContentTitle {
+    map<string, CountryText> countryText = 1;
+}
+
+message WelcomeContent {
+    map<string, WelcomeText> countryText = 1;
+}
+
+message WelcomeText {
+    string text = 1;
+}
+
+message SurveyMetadata {
+    bool isTest = 1;
+    string status = 2;
+    repeated string locales = 3;
+    repeated string branches = 4;
+    int32 clientId = 5;
+    Taxonomy taxonomy = 6;
+    google.protobuf.Timestamp closeDate = 7;
+    bool isTemplate = 8;
+    ProductInfo productInfo = 9;
+    CreationInfo creationInfo = 10;
+    bool prePopulated = 11;
+    string cacheLocation = 12;
+    string defaultLocale = 13;
+    DisplaySettings displaySettings = 14;
+    bool adminConsoleEnabled = 15;
+    string defaultYrOnYrSurveyId = 16;
+    bool excludeFromBenchmarks = 17;
+}
+
+message Taxonomy {
+    string surveyType = 1;
+    string respondentType = 2;
+}
+
+message ProductInfo {
+    int32 productId = 1;
+    IndustrySpecificInfo industrySpecificInfo = 2;
+}
+
+message IndustrySpecificInfo {
+    google.protobuf.Timestamp endDate = 1;
+    int32 venueId = 2;
+    string industry = 3;
+    google.protobuf.Timestamp startDate = 4;
+    int32 numVisitors = 5;
+    string productName = 6;
+    string productType = 7;
+}
+
+message CreationInfo {
+    int32 createdBy = 1;
+    google.protobuf.Timestamp createdTime = 2;
+}
+
+message DisplaySettings {
+    string styling = 1;
+    string bannerUrl = 2;
+    bool showBackButton = 3;
+    bool showPreviewMessage = 4;
+    bool disableMobileDisplayMode = 5;
+}
+
+message SkipLogic {
+    string id = 1;
+    Action action = 2;
+    int32 legacyId = 3;
+    repeated TriggerGroup triggerGroups = 4;
+}
+
+message Action {
+    string id = 1;
+    string kind = 2;
+    int32 legacyId = 3;
+    string pageQuestionId = 4;
+}
+
+message TriggerGroup {
+    string id = 1;
+    repeated Children children = 2;
+    string interGroupLogicalOperator = 3;
+}
+
+message Children {
+    string id = 1;
+    repeated Trigger triggers = 2;
+    string interGroupLogicalOperator = 3;
+}
+
+message Trigger {
+    string id = 1;
+    int32 legacyId = 2;
+    Condition condition = 3;
+    string interTriggerLogicalOperator = 4;
+}
+
+message Condition {
+    string kind = 1;
+    string set1 = 2;
+    string pageQuestionId = 3;
+    string equalityOperator = 4;
+}
