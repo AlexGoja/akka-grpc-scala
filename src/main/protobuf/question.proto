@@ -95,7 +95,7 @@ message Lang {
     map<string, CountryText> countryText = 1;
 }
 
-message QuestionRequest {string id = 1;}
+message QuestionRequest {int32 id = 1;}
 message QuestionResponse {string question = 1;}
 
 service QuestionService {

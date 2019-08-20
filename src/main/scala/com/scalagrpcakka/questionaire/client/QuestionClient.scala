@@ -3,9 +3,7 @@ package com.scalagrpcakka.questionaire.client
 import akka.actor.ActorSystem
 import akka.grpc.GrpcClientSettings
 import akka.stream.ActorMaterializer
-import com.scalagrpcakka.questionaire.{QuestionRequest, QuestionServiceClient}
-
-import scala.util.{Failure, Success}
+import com.scalagrpcakka.questionaire.QuestionServiceClient
 
 object QuestionClient {
 
@@ -17,22 +15,22 @@ object QuestionClient {
     val client = QuestionServiceClient(GrpcClientSettings.fromConfig("question.QuestionService"))
 
     val names =
-      if (args.isEmpty) List("QuestionID1", "QuestionID2")
+      if (args.isEmpty) List(1, 2)
       else args.toList
 
-    names.foreach(singleRequestReply)
-
-
-    def singleRequestReply(id: String): Unit = {
-      println(s"Performing request: $id")
-      val reply = client.getQuestion(QuestionRequest(id))
-      reply.onComplete {
-        case Success(msg) =>
-          println(msg)
-        case Failure(e) =>
-          println(s"Error: $e")
-      }
-    }
+//    names.foreach(singleRequestReply)
+//
+//
+//    def singleRequestReply(id: String): Unit = {
+//      println(s"Performing request: $id")
+//      val reply = client.getQuestion(QuestionRequest(id))
+//      reply.onComplete {
+//        case Success(msg) =>
+//          println(msg)
+//        case Failure(e) =>
+//          println(s"Error: $e")
+//      }
+//    }
 
   }
 
